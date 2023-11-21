@@ -1,0 +1,84 @@
+---
+title: "Data Science Showcase - Unsupervised Learning"
+author: "Shaun Latham, Glen Arch"
+date: "2023-11-21"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(plotly)
+library(ggpubr)
+```
+
+<h1>1. Introduction </h1>
+Welcome to the Data Science Showcase, in this section we are detailing unsupervised learning and R.
+<br></br>
+Documentation relating to the decision making and time-management of the development of this code can be found <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1/timeline?selectedIssue=DSS-1>here</a>. 
+
+As part of the wider project, we had decided to demonstrate competency with unsupervised learning techniques and with R. 
+The team therefore decided to find an example dataset then tidy and model it using R.
+
+Actions within the team were tracked in the following issues:
+<br></br>
+Sprint <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-8>DSS-8:</a> Create unsupervised learning model
+<ul>
+- <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-15>DSS-15:</a> Find a compatible data-set (<a/href=https://github.com/Shaun-Latham>@ShaunLatham</a> <a/href=https://github.com/glen-arch>@GlenArch</a>)
+- <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-23>DSS-23:</a> Build & train model - K-means (<a/href=https://github.com/glen-arch>@GlenArch</a>)
+- <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-56>DSS-56:</a> Build & train model - principal component analysis (<a/href=https://github.com/Shaun-Latham>@ShaunLatham</a>)
+- <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-24>DSS-24:</a> Visualize the data & output of models (<a/href=https://github.com/Shaun-Latham>@ShaunLatham</a> <a/href=https://github.com/glen-arch>@GlenArch</a>)
+</ul><br>
+
+
+
+
+
+</br>
+<h1>2. Exploring the data </h1>
+<a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-15>DSS-15:</a> Find a compatible dataset.
+<br>
+</br>
+The team decided to utilize the iris dataset, which comes built into R.<br></br>
+This dataset is a collection of measurements taken from individuals of three species of the <i>Iris</i> genus; <i>I. setosa</i>, <i>I. versicolor</i> and <i>I. virginica</i>, which are flowers.<br></br>
+Below is a glimpse of the table and a summary of the population sizes and distributions:
+```{r cars}
+glimpse(iris)
+summary(iris)
+```
+<br>
+</br>
+Firstly, it appears the variable names could use some tidying, the values are measured in cm but this is not reflected. The names are corrected below and saved to a new dataframe called 'data':
+```{r}
+data <- iris %>% 
+  rename("Petal length (cm)" = Petal.Length,
+         "Petal width (cm)" = Petal.Width,
+         "Sepal length (cm)" = Sepal.Length,
+         "Sepal width (cm)" = Sepal.Width)
+glimpse(data)
+```
+<br></br>
+Clearly, from looking at the tables alone, it is not easy to visualize how each species differs for these variables.<br></br>
+Below are distribution plots examining each of the numeric variables:<br>
+</br>
+```{r}
+subfig1 <-ggplot(data, aes(x=`Petal length (cm)`, group=Species, fill = Species)) +
+geom_density(alpha=0.8)
+
+subfig2<- ggplot(data, aes(x=`Petal width (cm)`, group=Species, fill = Species)) +
+geom_density(alpha=0.8, show.legend=FALSE)
+
+subfig3 <- ggplot(data, aes(x=`Sepal length (cm)`, group=Species, fill = Species)) +
+geom_density(alpha=0.8, show.legend=FALSE)
+
+subfig4 <- ggplot(data, aes(x=`Sepal width (cm)`, group=Species, fill = Species)) +
+geom_density(alpha=0.8, show.legend=FALSE)
+
+figure <- ggarrange(subfig1, subfig2, subfig3, subfig4,
+                    labels = c("A", "B", "C", "D"),
+                    ncol = 2, nrow = 2, 
+                    common.legend = TRUE,
+                    legend = "bottom")
+annotate_figure(figure, top = text_grob("Figure 1: Density of flower dimensions by species",face="bold",size=14))
+
+```
