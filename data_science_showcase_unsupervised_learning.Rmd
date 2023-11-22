@@ -10,6 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(plotly)
 library(ggpubr)
+library(ggsignif)
+library(ggplot2)
 ```
 
 <h1>1. Introduction </h1>
@@ -36,6 +38,8 @@ Sprint <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boa
 
 </br>
 <h1>2. Exploring the data </h1>
+<a/href=https://github.com/Shaun-Latham>@ShaunLatham</a><br>
+</br>
 <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-15>DSS-15:</a> Find a compatible dataset.
 <br>
 </br>
@@ -62,19 +66,19 @@ Clearly, from looking at the tables alone, it is not easy to visualize how each 
 Below are distribution plots examining each of the numeric variables:<br>
 </br>
 ```{r}
-subfig1 <-ggplot(data, aes(x=`Petal length (cm)`, group=Species, fill = Species)) +
+fig1sub1 <-ggplot(data, aes(x=`Petal length (cm)`, group=Species, fill = Species)) +
 geom_density(alpha=0.8)
 
-subfig2<- ggplot(data, aes(x=`Petal width (cm)`, group=Species, fill = Species)) +
+fig1sub2<- ggplot(data, aes(x=`Petal width (cm)`, group=Species, fill = Species)) +
 geom_density(alpha=0.8, show.legend=FALSE)
 
-subfig3 <- ggplot(data, aes(x=`Sepal length (cm)`, group=Species, fill = Species)) +
+fig1sub3 <- ggplot(data, aes(x=`Sepal length (cm)`, group=Species, fill = Species)) +
 geom_density(alpha=0.8, show.legend=FALSE)
 
-subfig4 <- ggplot(data, aes(x=`Sepal width (cm)`, group=Species, fill = Species)) +
+fig1sub4 <- ggplot(data, aes(x=`Sepal width (cm)`, group=Species, fill = Species)) +
 geom_density(alpha=0.8, show.legend=FALSE)
 
-figure <- ggarrange(subfig1, subfig2, subfig3, subfig4,
+figure <- ggarrange(fig1sub1, fig1sub2, fig1sub3, fig1sub4,
                     labels = c("A", "B", "C", "D"),
                     ncol = 2, nrow = 2, 
                     common.legend = TRUE,
@@ -82,3 +86,47 @@ figure <- ggarrange(subfig1, subfig2, subfig3, subfig4,
 annotate_figure(figure, top = text_grob("Figure 1: Density of flower dimensions by species",face="bold",size=14))
 
 ```
+<br>
+</br>
+Alternatively, the data can be visualized as boxplots, indicating which variables are significantly different between species:
+```{r}
+fig2sub1 <- ggplot(data, aes(x=`Petal length (cm)`, y=Species, fill=Species)) + geom_boxplot() +
+  geom_signif(comparisons = list(c("versicolor", "virginica"), 
+                                 c("setosa","versicolor")), 
+              map_signif_level=TRUE)
+
+fig2sub2 <- ggplot(data, aes(x=`Petal width (cm)`, y=Species, fill=Species)) +
+  geom_boxplot() +
+  geom_signif(comparisons = list(c("versicolor", "virginica"), 
+                                 c("setosa","versicolor")), 
+              map_signif_level=TRUE)
+
+fig2sub3 <- ggplot(data, aes(x=`Sepal length (cm)`, y=Species, fill=Species)) + geom_boxplot() +
+  geom_signif(comparisons = list(c("versicolor", "virginica"), 
+                                 c("setosa","versicolor")), 
+              map_signif_level=TRUE)
+
+fig2sub4 <- ggplot(data, aes(x=`Sepal width (cm)`, y=Species, fill=Species)) +
+  geom_boxplot() + geom_signif(comparisons = list(c("versicolor", "virginica"), 
+                                 c("setosa","versicolor")), 
+              map_signif_level=TRUE)
+figure <- ggarrange(fig2sub1, fig2sub2, fig2sub3, fig2sub4,
+                    labels = c("A", "B", "C", "D"),
+                    ncol = 2, nrow = 2, 
+                    common.legend = TRUE,
+                    legend = "bottom")
+annotate_figure(figure, top = text_grob("Figure 2: Boxplots of flower dimensions by species",face="bold",size=14))
+
+```
+<br>
+
+
+</br>
+<h1> 3. Analysis by unsupervised learning techniques</h1>
+<br>
+</br>
+<h2> 3.1 Principal Component Analysis</h2>
+<a/href=https://github.com/Shaun-Latham>@ShaunLatham</a><br>
+</br>
+
+
