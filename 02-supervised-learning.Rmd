@@ -1,0 +1,28 @@
+# Supervised Learning
+
+@shaunLatham, @GlenArch
+
+## Introduction
+
+This chapter aims to demonstrate competency with supervised learning techniques.
+
+The workflow is captured using Jira under the issue <a/href=https://shaun-latham.atlassian.net/browse/DSS-7>DSS-7</a>:
+<ul>
+- <a/href=https://shaun-latham.atlassian.net/browse/DSS-14>DSS-14</a> - Identify compatible datasets
+- <a/href=https://shaun-latham.atlassian.net/browse/DSS-16>DSS-16</a> - Identify predictor and target variables.
+- <a/href=https://shaun-latham.atlassian.net/browse/DSS-17>DSS-17</a> - Decide on algorithms and scoring metrics.
+- <a/href=https://shaun-latham.atlassian.net/browse/DSS-18>DSS-18</a> - Tidy and clean the datasets.
+- <a/href=https://shaun-latham.atlassian.net/browse/DSS-19>DSS-19</a> - Engineer features where appropriate.
+- <a/href=https://shaun-latham.atlassian.net/browse/DSS-20>DSS-20</a> - Build and train models.
+- <a/href=https://shaun-latham.atlassian.net/browse/DSS-21>DSS-21</a> - Evaluate and visualise models.
+</ul>
+
+It was decided to target the following techniques:
+<ul>
+- Partial Least-Squares (@GlenArch)
+- Linear / Quadratic Regression (@ShaunLatham)
+- Support Vector Machines (@ShaunLatham, @GlenArch)
+- Decision Tree Classifiers (@GlenArch)
+- Logistic Regression (@ShaunLatham)
+- K-nearest neighbours (@ShaunLatham, @GlenArch)
+</ul>
