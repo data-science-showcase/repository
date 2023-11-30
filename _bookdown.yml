@@ -1,1 +1,6 @@
-_
+book_filename: "test_bookdown_project"
+delete_merged_file: true
+output_dir: "docs"
+language:
+  ui:
+    chapter_name: "Chapter "

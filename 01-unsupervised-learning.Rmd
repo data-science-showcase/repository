@@ -1,0 +1,335 @@
+
+```{r, setup, include=FALSE, results='hide'}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(plotly)
+library(ggpubr)
+library(ggsignif)
+library(ggplot2)
+library(ggcorrplot)
+library(corrr)
+library(FactoMineR)
+library(factoextra)
+library(ggfortify)
+library(rgl)
+library(shiny)
+library(clue)
+library(xgboost)
+library(caret)
+library(cluster)
+```
+
+# Unsupervised Learning
+
+
+## Introduction
+Welcome to the Data Science Showcase, in this section we are detailing unsupervised learning and R.
+<br></br>
+Documentation relating to the decision making and time-management of the development of this code can be found <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1/timeline?selectedIssue=DSS-1>here</a>. 
+
+As part of the wider project, we had decided to demonstrate competency with unsupervised learning techniques and with R. 
+The team therefore decided to find an example dataset then tidy and model it using R.
+
+Actions within the team were tracked in the following issues:
+<br></br>
+Sprint <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-8>DSS-8:</a> Create unsupervised learning model
+<ul>
+- <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-15>DSS-15:</a> Find a compatible data-set (<a/href=https://github.com/Shaun-Latham>@ShaunLatham</a> <a/href=https://github.com/glen-arch>@GlenArch</a>)
+- <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-23>DSS-23:</a> Build & train model - K-means (<a/href=https://github.com/glen-arch>@GlenArch</a>)
+- <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-56>DSS-56:</a> Build & train model - principal component analysis (<a/href=https://github.com/Shaun-Latham>@ShaunLatham</a>)
+- <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-24>DSS-24:</a> Visualize the data & output of models (<a/href=https://github.com/Shaun-Latham>@ShaunLatham</a> <a/href=https://github.com/glen-arch>@GlenArch</a>)
+</ul><br>
+
+
+
+
+
+</br>
+
+## Exploring the data
+<a/href=https://github.com/Shaun-Latham>@ShaunLatham</a><br>
+</br>
+<a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-15>DSS-15:</a> Find a compatible dataset.
+<br>
+</br>
+The team decided to utilize the iris dataset, which comes built into R.<br></br>
+This dataset is a collection of measurements taken from individuals of three species of the <i>Iris</i> genus; <i>I. setosa</i>, <i>I. versicolor</i> and <i>I. virginica</i>, which are flowers.<br></br>
+Below is a glimpse of the table and a summary of the population sizes and distributions:
+
+
+```{r}
+glimpse(iris)
+```
+
+```{r}
+summary(iris)
+```
+
+
+<br>
+</br>
+Firstly, it appears the variable names could use some tidying, the values are measured in cm but this is not reflected. The names are corrected below and saved to a new dataframe called 'data':
+```{r}
+data <- iris %>% 
+  rename("Petal length (cm)" = Petal.Length,
+         "Petal width (cm)" = Petal.Width,
+         "Sepal length (cm)" = Sepal.Length,
+         "Sepal width (cm)" = Sepal.Width)
+glimpse(data)
+```
+<br></br>
+Clearly, from looking at the tables alone, it is not easy to visualize how each species differs for these variables.<br></br>
+Below are distribution plots examining each of the numeric variables:<br>
+</br>
+```{r}
+fig1sub1 <-ggplot(data, aes(x=`Petal length (cm)`, group=Species, fill = Species)) +
+geom_density(alpha=0.8)
+
+fig1sub2<- ggplot(data, aes(x=`Petal width (cm)`, group=Species, fill = Species)) +
+geom_density(alpha=0.8, show.legend=FALSE)
+
+fig1sub3 <- ggplot(data, aes(x=`Sepal length (cm)`, group=Species, fill = Species)) +
+geom_density(alpha=0.8, show.legend=FALSE)
+
+fig1sub4 <- ggplot(data, aes(x=`Sepal width (cm)`, group=Species, fill = Species)) +
+geom_density(alpha=0.8, show.legend=FALSE)
+
+figure <- ggarrange(fig1sub1, fig1sub2, fig1sub3, fig1sub4,
+                    labels = c("A", "B", "C", "D"),
+                    ncol = 2, nrow = 2, 
+                    common.legend = TRUE,
+                    legend = "bottom")
+annotate_figure(figure, top = text_grob("Figure 1: Density of flower dimensions by species",face="bold",size=14))
+
+
+```
+<br>
+</br>
+Alternatively, the data can be visualized as boxplots, indicating which variables are significantly different between species:
+```{r}
+fig2sub1 <- ggplot(data, aes(x=`Petal length (cm)`, y=Species, fill=Species)) + geom_boxplot() +
+  geom_signif(comparisons = list(c("versicolor", "virginica"), 
+                                 c("setosa","versicolor")), 
+              map_signif_level=TRUE)
+
+fig2sub2 <- ggplot(data, aes(x=`Petal width (cm)`, y=Species, fill=Species)) +
+  geom_boxplot() +
+  geom_signif(comparisons = list(c("versicolor", "virginica"), 
+                                 c("setosa","versicolor")), 
+              map_signif_level=TRUE)
+
+fig2sub3 <- ggplot(data, aes(x=`Sepal length (cm)`, y=Species, fill=Species)) + geom_boxplot() +
+  geom_signif(comparisons = list(c("versicolor", "virginica"), 
+                                 c("setosa","versicolor")), 
+              map_signif_level=TRUE)
+
+fig2sub4 <- ggplot(data, aes(x=`Sepal width (cm)`, y=Species, fill=Species)) +
+  geom_boxplot() + geom_signif(comparisons = list(c("versicolor", "virginica"), 
+                                 c("setosa","versicolor")), 
+              map_signif_level=TRUE)
+figure <- ggarrange(fig2sub1, fig2sub2, fig2sub3, fig2sub4,
+                    labels = c("A", "B", "C", "D"),
+                    ncol = 2, nrow = 2, 
+                    common.legend = TRUE,
+                    legend = "bottom")
+annotate_figure(figure, top = text_grob("Figure 2: Boxplots of flower dimensions by species",face="bold",size=14))
+
+```
+<br>
+
+
+</br>
+
+## Analysis by unsupervised learning techniques
+<br>
+</br>
+
+### 3.1 Principal Component Analysis
+<a/href=https://github.com/Shaun-Latham>@ShaunLatham</a><br>
+</br>
+ <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-56>DSS-56:</a> Build & train model - principal component analysis:<br></br>
+While PCA is normally used in situations where variance is contained across many variables, it can also be used to reduce the four dimensions of our Iris dataset to explain variance across a few eigenvectors through the data.<br></br>
+Below, a covariance matrix is visualized and PCA is performed on the data; a summary of the proportion of variance explained by each eigenvector:
+```{r}
+corr_matrix <- cor(data[,0:4])
+ggcorrplot(corr_matrix)
+```
+It can be seen from the Scree plot that 92.46% of variance in the dataset is explained in the fist principal component with an additional 5.30% from the second principal component. As such, the variance of the dataset can be effectively modelled in two dimensions rather than four.
+
+```{r}
+data.pca <- prcomp(data[,0:4],scale=FALSE)
+summary(data.pca)
+fig3sub1 <- fviz_eig(data.pca, add_labels=TRUE)
+fig3sub2 <- fviz_cos2(data.pca, choice = "var", axes = 1:2)
+#fig3sub3 <- fviz_pca(data.pca)
+
+
+figure3 <- ggarrange(fig3sub1, fig3sub2,
+                    labels = c("A", "B"),
+                    ncol = 2,
+                    common.legend = TRUE,
+                    legend = "bottom")
+
+figure3
+#fig3sub3
+```
+Below is a plot of sample scores for PC1, PC2 & PC3 coloured by species. It is clear that each species presents its own cluster, though there is some overlap between the <i>I. versicolor</i> and <i>I. virginica</i> clusters. 
+
+```{r}
+fig4sub1 <- autoplot(data.pca, data = data, colour="Species")
+fig4sub1
+
+mycolors <- c('orange', 'green', 'blue')
+data$color <- mycolors[ as.numeric(data$Species) ]
+fig4sub2 <- plot3d(data.pca$x[,1], xlab='PC1 (Rx^2 = 0.92)',
+                   data.pca$x[,2], ylab='PC2 (Rx^2 = 0.05)', 
+                   data.pca$x[,3], zlab='PC3 (Rx^2 = 0.01)',
+                   col = data$color)
+#rglwidget()
+fig4sub2
+```
+<br>
+
+</br>
+
+### K-Means Analysis
+<a/href=https://github.com/glen-arch>@GlenArch</a><br>
+
+</br>
+<a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-23>DSS-23:</a> Build & train model - K-means:<br></br>
+
+
+```{r}
+#Load the data into the dataframe
+df <- iris
+#Remove any missing values
+df <- na.omit(df)
+#Remove the species column from the dataset
+df_iris <- df
+df <- df[-c(5)]
+#Scale all of the values from 0 to 1
+#df <- scale(df)
+
+km <- kmeans(df, 3, 100)
+km.pca <- kmeans(data.pca$x[,1:2],3,100)
+
+```
+
+
+
+```{r}
+fig5sub1 <- fviz_nbclust(df, kmeans, nstart=2, method = "wss")+labs(title=NULL)
+plot(fig5sub1)
+```
+
+
+
+```{r}
+fig5sub2 <- fviz_nbclust(df, kmeans, nstart = 2, method = "silhouette")+labs(title=NULL)
+fig5sub2
+```
+
+
+
+```{r}
+
+fig5sub3 <- fviz_nbclust(df, kmeans,nstart = 2,method = "gap_stat")+labs(title=NULL)
+fig5sub3
+```
+
+
+
+```{r}
+fig6sub1 <- fviz_cluster(km, df)+labs(title = "K-Means: Raw Data")
+fig6sub2 <- fviz_cluster(km.pca, df)+labs(title = "K-Means: PCA Scores")
+
+figure6 <- ggarrange(fig6sub1, fig6sub2,
+                    labels = c("A", "B"),
+                    ncol = 2, 
+                    common.legend = TRUE,
+                    legend = "bottom")
+figure6
+
+
+cluster_species <- km.pca$cluster
+cluster_species <- recode(cluster_species,
+                        "1" = "virginica",
+                        "2" = "versicolor",
+                        "3" = "setosa")
+
+data$cluster_species <- cluster_species
+confusionMatrix(data = factor(data$Species), reference = factor(data$cluster_species))
+
+```
+
+<br>
+
+
+</br>
+
+## Predict a species
+
+<a/href=https://github.com/Shaun-Latham>@ShaunLatham</a><br>
+
+</br>
+Having explored the data and analysed it by PCA and K-Means, the authors would like to demonstrate the predictive potential of these algorithms. While other supervised learning techniques would be more appropriate for this application, this chapter on unsupervised learning is the only chapter we intend to develop in R; therefore, this is the only opportunity to showcase the interactive R Shiny elements displayed below.<br></br>
+Take some time to input some measurements of your own and see which species your flower is likely to be:<br>
+
+</br>
+```{r}
+knitr::include_url("https://shaun-m-latham.shinyapps.io/data_science_showcase_unsupervised_learning/", height="600px")
+```
+
+```{r}
+#Function to predict cluster from unknown.
+kmeans_predictor <- function(data,PetalLength,PetalWidth,SepalLength,SepalWidth){
+  test_data <- array(c(PetalLength,PetalWidth,SepalLength,SepalWidth), dim=c(1,4))
+  model <- kmeans(data[,1:4],3,nstart=25)
+  prediction <- cl_predict(model, test_data)
+  return(prediction)
+}
+
+#App to input flower dimensions and predict species.
+shinyApp(
+
+  ui = fluidPage(
+    titlePanel("Predict Species"),
+    
+    sidebarLayout(
+      sidebarPanel(
+           numericInput("PetalLength", "Petal length (cm):", 0, min = 0, max = 10),
+           numericInput("PetalWidth", "Petal width (cm):", 0, min = 0, max = 10),
+           numericInput("SepalLength", "Sepal length (cm):", 0, min = 0, max = 10),
+           numericInput("SepalWidth", "Sepal width (cm):", 0, min = 0, max = 10),
+           actionButton("submit","Submit")),
+      mainPanel(
+           textOutput("prediction"),
+           imageOutput('plot3'))
+      )),
+
+  server = function(input, output) {
+    
+    output$plot3 <- renderImage({
+      # When input$n is 1, filename is ./images/image1.jpeg
+      filename <- normalizePath(file.path('./',
+                              paste('silly-dog', '.png', sep='')))
+
+      # Return a list containing the filename
+      list(src = filename)
+    }, deleteFile = FALSE)
+    
+    calculate <- eventReactive(input$submit,{kmeans_predictor(data,
+                                                 input$PetalLength,
+                                                 input$PetalWidth,
+                                                 input$SepalLength,
+                                                 input$SepalWidth)})
+    output$prediction <- renderText(calculate())
+  },
+
+  options = list(height = 500)
+)
+
+```
+
+
+

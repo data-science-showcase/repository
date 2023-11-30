@@ -1,0 +1,10 @@
+introduction
+unsupervised-learning
+introduction-1
+exploring-the-data
+analysis-by-unsupervised-learning-techniques
+principal-component-analysis
+k-means-analysis
+predict-a-species
+supervised-learning
+introduction-2

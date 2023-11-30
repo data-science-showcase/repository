@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Unsupervised Learning | Data Science Showcase</title>
+  <meta name="description" content="Chapter 2 Unsupervised Learning | Data Science Showcase, hire us!" />
+  <meta name="generator" content="bookdown 0.36 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Unsupervised Learning | Data Science Showcase" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="Chapter 2 Unsupervised Learning | Data Science Showcase, hire us!" />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Unsupervised Learning | Data Science Showcase" />
+  
+  <meta name="twitter:description" content="Chapter 2 Unsupervised Learning | Data Science Showcase, hire us!" />
+  
+
+<meta name="author" content="Shaun Latham, Glen Arch" />
+
+
+<meta name="date" content="2023-11-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="supervised-learning.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html"><i class="fa fa-check"></i><b>2</b> Unsupervised Learning</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#introduction-1"><i class="fa fa-check"></i><b>2.1</b> Introduction</a></li>
+<li class="chapter" data-level="2.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#exploring-the-data"><i class="fa fa-check"></i><b>2.2</b> Exploring the data</a></li>
+<li class="chapter" data-level="2.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#analysis-by-unsupervised-learning-techniques"><i class="fa fa-check"></i><b>2.3</b> Analysis by unsupervised learning techniques</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#principal-component-analysis"><i class="fa fa-check"></i><b>2.3.1</b> 3.1 Principal Component Analysis</a></li>
+<li class="chapter" data-level="2.3.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#k-means-analysis"><i class="fa fa-check"></i><b>2.3.2</b> K-Means Analysis</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#predict-a-species"><i class="fa fa-check"></i><b>2.4</b> Predict a species</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>3</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="supervised-learning.html"><a href="supervised-learning.html#introduction-2"><i class="fa fa-check"></i><b>3.1</b> Introduction</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data Science Showcase</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="unsupervised-learning" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Unsupervised Learning<a href="unsupervised-learning.html#unsupervised-learning" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introduction-1" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Introduction<a href="unsupervised-learning.html#introduction-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Welcome to the Data Science Showcase, in this section we are detailing unsupervised learning and R.
+<br></br>
+Documentation relating to the decision making and time-management of the development of this code can be found <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1/timeline?selectedIssue=DSS-1>here</a>.</p>
+<p>As part of the wider project, we had decided to demonstrate competency with unsupervised learning techniques and with R.
+The team therefore decided to find an example dataset then tidy and model it using R.</p>
+Actions within the team were tracked in the following issues:
+<br></br>
+Sprint <a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-8>DSS-8:</a> Create unsupervised learning model
+<ul>
+<ul>
+<li><a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-15>DSS-15:</a> Find a compatible data-set (<a/href=https://github.com/Shaun-Latham><span class="citation">(<a href="#ref-ShaunLatham"><strong>ShaunLatham?</strong></a>)</span></a> <a/href=https://github.com/glen-arch><span class="citation">(<a href="#ref-GlenArch"><strong>GlenArch?</strong></a>)</span></a>)</li>
+<li><a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-23>DSS-23:</a> Build &amp; train model - K-means (<a/href=https://github.com/glen-arch><span class="citation">(<a href="#ref-GlenArch"><strong>GlenArch?</strong></a>)</span></a>)</li>
+<li><a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-56>DSS-56:</a> Build &amp; train model - principal component analysis (<a/href=https://github.com/Shaun-Latham><span class="citation">(<a href="#ref-ShaunLatham"><strong>ShaunLatham?</strong></a>)</span></a>)</li>
+<li><a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-24>DSS-24:</a> Visualize the data &amp; output of models (<a/href=https://github.com/Shaun-Latham><span class="citation">(<a href="#ref-ShaunLatham"><strong>ShaunLatham?</strong></a>)</span></a> <a/href=https://github.com/glen-arch><span class="citation">(<a href="#ref-GlenArch"><strong>GlenArch?</strong></a>)</span></a>)</li>
+</ul>
+</ul>
+<p><br></p>
+<p></br></p>
+</div>
+<div id="exploring-the-data" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Exploring the data<a href="unsupervised-learning.html#exploring-the-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><a/href=https://github.com/Shaun-Latham><span class="citation">(<a href="#ref-ShaunLatham"><strong>ShaunLatham?</strong></a>)</span></a><br>
+</br>
+<a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-15>DSS-15:</a> Find a compatible dataset.
+<br>
+</br>
+The team decided to utilize the iris dataset, which comes built into R.<br></br>
+This dataset is a collection of measurements taken from individuals of three species of the <i>Iris</i> genus; <i>I. setosa</i>, <i>I. versicolor</i> and <i>I. virginica</i>, which are flowers.<br></br>
+Below is a glimpse of the table and a summary of the population sizes and distributions:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="unsupervised-learning.html#cb1-1" tabindex="-1"></a><span class="fu">glimpse</span>(iris)</span></code></pre></div>
+<pre><code>## Rows: 150
+## Columns: 5
+## $ Sepal.Length &lt;dbl&gt; 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9, 5.4, 4.…
+## $ Sepal.Width  &lt;dbl&gt; 3.5, 3.0, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, 3.7, 3.…
+## $ Petal.Length &lt;dbl&gt; 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5, 1.5, 1.…
+## $ Petal.Width  &lt;dbl&gt; 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.…
+## $ Species      &lt;fct&gt; setosa, setosa, setosa, setosa, setosa, setosa, setosa, s…</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="unsupervised-learning.html#cb3-1" tabindex="-1"></a><span class="fu">summary</span>(iris)</span></code></pre></div>
+<pre><code>##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100  
+##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+##  Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199  
+##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+##        Species  
+##  setosa    :50  
+##  versicolor:50  
+##  virginica :50  
+##                 
+##                 
+## </code></pre>
+<p><br>
+</br>
+Firstly, it appears the variable names could use some tidying, the values are measured in cm but this is not reflected. The names are corrected below and saved to a new dataframe called ‘data’:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="unsupervised-learning.html#cb5-1" tabindex="-1"></a>data <span class="ot">&lt;-</span> iris <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="unsupervised-learning.html#cb5-2" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">&quot;Petal length (cm)&quot;</span> <span class="ot">=</span> Petal.Length,</span>
+<span id="cb5-3"><a href="unsupervised-learning.html#cb5-3" tabindex="-1"></a>         <span class="st">&quot;Petal width (cm)&quot;</span> <span class="ot">=</span> Petal.Width,</span>
+<span id="cb5-4"><a href="unsupervised-learning.html#cb5-4" tabindex="-1"></a>         <span class="st">&quot;Sepal length (cm)&quot;</span> <span class="ot">=</span> Sepal.Length,</span>
+<span id="cb5-5"><a href="unsupervised-learning.html#cb5-5" tabindex="-1"></a>         <span class="st">&quot;Sepal width (cm)&quot;</span> <span class="ot">=</span> Sepal.Width)</span>
+<span id="cb5-6"><a href="unsupervised-learning.html#cb5-6" tabindex="-1"></a><span class="fu">glimpse</span>(data)</span></code></pre></div>
+<pre><code>## Rows: 150
+## Columns: 5
+## $ `Sepal length (cm)` &lt;dbl&gt; 5.1, 4.9, 4.7, 4.6, 5.0, 5.4, 4.6, 5.0, 4.4, 4.9, …
+## $ `Sepal width (cm)`  &lt;dbl&gt; 3.5, 3.0, 3.2, 3.1, 3.6, 3.9, 3.4, 3.4, 2.9, 3.1, …
+## $ `Petal length (cm)` &lt;dbl&gt; 1.4, 1.4, 1.3, 1.5, 1.4, 1.7, 1.4, 1.5, 1.4, 1.5, …
+## $ `Petal width (cm)`  &lt;dbl&gt; 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, …
+## $ Species             &lt;fct&gt; setosa, setosa, setosa, setosa, setosa, setosa, se…</code></pre>
+<p><br></br>
+Clearly, from looking at the tables alone, it is not easy to visualize how each species differs for these variables.<br></br>
+Below are distribution plots examining each of the numeric variables:<br>
+</br></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="unsupervised-learning.html#cb7-1" tabindex="-1"></a>fig1sub1 <span class="ot">&lt;-</span><span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">Petal length (cm)</span><span class="st">`</span>, <span class="at">group=</span>Species, <span class="at">fill =</span> Species)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="unsupervised-learning.html#cb7-2" tabindex="-1"></a><span class="fu">geom_density</span>(<span class="at">alpha=</span><span class="fl">0.8</span>)</span>
+<span id="cb7-3"><a href="unsupervised-learning.html#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="unsupervised-learning.html#cb7-4" tabindex="-1"></a>fig1sub2<span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">Petal width (cm)</span><span class="st">`</span>, <span class="at">group=</span>Species, <span class="at">fill =</span> Species)) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="unsupervised-learning.html#cb7-5" tabindex="-1"></a><span class="fu">geom_density</span>(<span class="at">alpha=</span><span class="fl">0.8</span>, <span class="at">show.legend=</span><span class="cn">FALSE</span>)</span>
+<span id="cb7-6"><a href="unsupervised-learning.html#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="unsupervised-learning.html#cb7-7" tabindex="-1"></a>fig1sub3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">Sepal length (cm)</span><span class="st">`</span>, <span class="at">group=</span>Species, <span class="at">fill =</span> Species)) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="unsupervised-learning.html#cb7-8" tabindex="-1"></a><span class="fu">geom_density</span>(<span class="at">alpha=</span><span class="fl">0.8</span>, <span class="at">show.legend=</span><span class="cn">FALSE</span>)</span>
+<span id="cb7-9"><a href="unsupervised-learning.html#cb7-9" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="unsupervised-learning.html#cb7-10" tabindex="-1"></a>fig1sub4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">Sepal width (cm)</span><span class="st">`</span>, <span class="at">group=</span>Species, <span class="at">fill =</span> Species)) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="unsupervised-learning.html#cb7-11" tabindex="-1"></a><span class="fu">geom_density</span>(<span class="at">alpha=</span><span class="fl">0.8</span>, <span class="at">show.legend=</span><span class="cn">FALSE</span>)</span>
+<span id="cb7-12"><a href="unsupervised-learning.html#cb7-12" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="unsupervised-learning.html#cb7-13" tabindex="-1"></a>figure <span class="ot">&lt;-</span> <span class="fu">ggarrange</span>(fig1sub1, fig1sub2, fig1sub3, fig1sub4,</span>
+<span id="cb7-14"><a href="unsupervised-learning.html#cb7-14" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>),</span>
+<span id="cb7-15"><a href="unsupervised-learning.html#cb7-15" tabindex="-1"></a>                    <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">2</span>, </span>
+<span id="cb7-16"><a href="unsupervised-learning.html#cb7-16" tabindex="-1"></a>                    <span class="at">common.legend =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-17"><a href="unsupervised-learning.html#cb7-17" tabindex="-1"></a>                    <span class="at">legend =</span> <span class="st">&quot;bottom&quot;</span>)</span>
+<span id="cb7-18"><a href="unsupervised-learning.html#cb7-18" tabindex="-1"></a><span class="fu">annotate_figure</span>(figure, <span class="at">top =</span> <span class="fu">text_grob</span>(<span class="st">&quot;Figure 1: Density of flower dimensions by species&quot;</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>,<span class="at">size=</span><span class="dv">14</span>))</span></code></pre></div>
+<p><img src="test_bookdown_project_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<br>
+</br>
+Alternatively, the data can be visualized as boxplots, indicating which variables are significantly different between species:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="unsupervised-learning.html#cb8-1" tabindex="-1"></a>fig2sub1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">Petal length (cm)</span><span class="st">`</span>, <span class="at">y=</span>Species, <span class="at">fill=</span>Species)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb8-2"><a href="unsupervised-learning.html#cb8-2" tabindex="-1"></a>  <span class="fu">geom_signif</span>(<span class="at">comparisons =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;versicolor&quot;</span>, <span class="st">&quot;virginica&quot;</span>), </span>
+<span id="cb8-3"><a href="unsupervised-learning.html#cb8-3" tabindex="-1"></a>                                 <span class="fu">c</span>(<span class="st">&quot;setosa&quot;</span>,<span class="st">&quot;versicolor&quot;</span>)), </span>
+<span id="cb8-4"><a href="unsupervised-learning.html#cb8-4" tabindex="-1"></a>              <span class="at">map_signif_level=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-5"><a href="unsupervised-learning.html#cb8-5" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="unsupervised-learning.html#cb8-6" tabindex="-1"></a>fig2sub2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">Petal width (cm)</span><span class="st">`</span>, <span class="at">y=</span>Species, <span class="at">fill=</span>Species)) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="unsupervised-learning.html#cb8-7" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb8-8"><a href="unsupervised-learning.html#cb8-8" tabindex="-1"></a>  <span class="fu">geom_signif</span>(<span class="at">comparisons =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;versicolor&quot;</span>, <span class="st">&quot;virginica&quot;</span>), </span>
+<span id="cb8-9"><a href="unsupervised-learning.html#cb8-9" tabindex="-1"></a>                                 <span class="fu">c</span>(<span class="st">&quot;setosa&quot;</span>,<span class="st">&quot;versicolor&quot;</span>)), </span>
+<span id="cb8-10"><a href="unsupervised-learning.html#cb8-10" tabindex="-1"></a>              <span class="at">map_signif_level=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-11"><a href="unsupervised-learning.html#cb8-11" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="unsupervised-learning.html#cb8-12" tabindex="-1"></a>fig2sub3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">Sepal length (cm)</span><span class="st">`</span>, <span class="at">y=</span>Species, <span class="at">fill=</span>Species)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb8-13"><a href="unsupervised-learning.html#cb8-13" tabindex="-1"></a>  <span class="fu">geom_signif</span>(<span class="at">comparisons =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;versicolor&quot;</span>, <span class="st">&quot;virginica&quot;</span>), </span>
+<span id="cb8-14"><a href="unsupervised-learning.html#cb8-14" tabindex="-1"></a>                                 <span class="fu">c</span>(<span class="st">&quot;setosa&quot;</span>,<span class="st">&quot;versicolor&quot;</span>)), </span>
+<span id="cb8-15"><a href="unsupervised-learning.html#cb8-15" tabindex="-1"></a>              <span class="at">map_signif_level=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-16"><a href="unsupervised-learning.html#cb8-16" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="unsupervised-learning.html#cb8-17" tabindex="-1"></a>fig2sub4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(<span class="at">x=</span><span class="st">`</span><span class="at">Sepal width (cm)</span><span class="st">`</span>, <span class="at">y=</span>Species, <span class="at">fill=</span>Species)) <span class="sc">+</span></span>
+<span id="cb8-18"><a href="unsupervised-learning.html#cb8-18" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span> <span class="fu">geom_signif</span>(<span class="at">comparisons =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;versicolor&quot;</span>, <span class="st">&quot;virginica&quot;</span>), </span>
+<span id="cb8-19"><a href="unsupervised-learning.html#cb8-19" tabindex="-1"></a>                                 <span class="fu">c</span>(<span class="st">&quot;setosa&quot;</span>,<span class="st">&quot;versicolor&quot;</span>)), </span>
+<span id="cb8-20"><a href="unsupervised-learning.html#cb8-20" tabindex="-1"></a>              <span class="at">map_signif_level=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-21"><a href="unsupervised-learning.html#cb8-21" tabindex="-1"></a>figure <span class="ot">&lt;-</span> <span class="fu">ggarrange</span>(fig2sub1, fig2sub2, fig2sub3, fig2sub4,</span>
+<span id="cb8-22"><a href="unsupervised-learning.html#cb8-22" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>),</span>
+<span id="cb8-23"><a href="unsupervised-learning.html#cb8-23" tabindex="-1"></a>                    <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">2</span>, </span>
+<span id="cb8-24"><a href="unsupervised-learning.html#cb8-24" tabindex="-1"></a>                    <span class="at">common.legend =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-25"><a href="unsupervised-learning.html#cb8-25" tabindex="-1"></a>                    <span class="at">legend =</span> <span class="st">&quot;bottom&quot;</span>)</span>
+<span id="cb8-26"><a href="unsupervised-learning.html#cb8-26" tabindex="-1"></a><span class="fu">annotate_figure</span>(figure, <span class="at">top =</span> <span class="fu">text_grob</span>(<span class="st">&quot;Figure 2: Boxplots of flower dimensions by species&quot;</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>,<span class="at">size=</span><span class="dv">14</span>))</span></code></pre></div>
+<p><img src="test_bookdown_project_files/figure-html/unnamed-chunk-7-1.png" width="672" />
+<br></p>
+<p></br></p>
+</div>
+<div id="analysis-by-unsupervised-learning-techniques" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Analysis by unsupervised learning techniques<a href="unsupervised-learning.html#analysis-by-unsupervised-learning-techniques" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><br>
+</br></p>
+<div id="principal-component-analysis" class="section level3 hasAnchor" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> 3.1 Principal Component Analysis<a href="unsupervised-learning.html#principal-component-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><a/href=https://github.com/Shaun-Latham><span class="citation">(<a href="#ref-ShaunLatham"><strong>ShaunLatham?</strong></a>)</span></a><br>
+</br>
+<a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-56>DSS-56:</a> Build &amp; train model - principal component analysis:<br></br>
+While PCA is normally used in situations where variance is contained across many variables, it can also be used to reduce the four dimensions of our Iris dataset to explain variance across a few eigenvectors through the data.<br></br>
+Below, a covariance matrix is visualized and PCA is performed on the data; a summary of the proportion of variance explained by each eigenvector:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="unsupervised-learning.html#cb9-1" tabindex="-1"></a>corr_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(data[,<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb9-2"><a href="unsupervised-learning.html#cb9-2" tabindex="-1"></a><span class="fu">ggcorrplot</span>(corr_matrix)</span></code></pre></div>
+<p><img src="test_bookdown_project_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+It can be seen from the Scree plot that 92.46% of variance in the dataset is explained in the fist principal component with an additional 5.30% from the second principal component. As such, the variance of the dataset can be effectively modelled in two dimensions rather than four.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="unsupervised-learning.html#cb10-1" tabindex="-1"></a>data.pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(data[,<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>],<span class="at">scale=</span><span class="cn">FALSE</span>)</span>
+<span id="cb10-2"><a href="unsupervised-learning.html#cb10-2" tabindex="-1"></a><span class="fu">summary</span>(data.pca)</span></code></pre></div>
+<pre><code>## Importance of components:
+##                           PC1     PC2    PC3     PC4
+## Standard deviation     2.0563 0.49262 0.2797 0.15439
+## Proportion of Variance 0.9246 0.05307 0.0171 0.00521
+## Cumulative Proportion  0.9246 0.97769 0.9948 1.00000</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="unsupervised-learning.html#cb12-1" tabindex="-1"></a>fig3sub1 <span class="ot">&lt;-</span> <span class="fu">fviz_eig</span>(data.pca, <span class="at">add_labels=</span><span class="cn">TRUE</span>)</span>
+<span id="cb12-2"><a href="unsupervised-learning.html#cb12-2" tabindex="-1"></a>fig3sub2 <span class="ot">&lt;-</span> <span class="fu">fviz_cos2</span>(data.pca, <span class="at">choice =</span> <span class="st">&quot;var&quot;</span>, <span class="at">axes =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
+<span id="cb12-3"><a href="unsupervised-learning.html#cb12-3" tabindex="-1"></a><span class="co">#fig3sub3 &lt;- fviz_pca(data.pca)</span></span>
+<span id="cb12-4"><a href="unsupervised-learning.html#cb12-4" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="unsupervised-learning.html#cb12-5" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="unsupervised-learning.html#cb12-6" tabindex="-1"></a>figure3 <span class="ot">&lt;-</span> <span class="fu">ggarrange</span>(fig3sub1, fig3sub2,</span>
+<span id="cb12-7"><a href="unsupervised-learning.html#cb12-7" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb12-8"><a href="unsupervised-learning.html#cb12-8" tabindex="-1"></a>                    <span class="at">ncol =</span> <span class="dv">2</span>,</span>
+<span id="cb12-9"><a href="unsupervised-learning.html#cb12-9" tabindex="-1"></a>                    <span class="at">common.legend =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-10"><a href="unsupervised-learning.html#cb12-10" tabindex="-1"></a>                    <span class="at">legend =</span> <span class="st">&quot;bottom&quot;</span>)</span>
+<span id="cb12-11"><a href="unsupervised-learning.html#cb12-11" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="unsupervised-learning.html#cb12-12" tabindex="-1"></a>figure3</span></code></pre></div>
+<p><img src="test_bookdown_project_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="unsupervised-learning.html#cb13-1" tabindex="-1"></a><span class="co">#fig3sub3</span></span></code></pre></div>
+<p>Below is a plot of sample scores for PC1, PC2 &amp; PC3 coloured by species. It is clear that each species presents its own cluster, though there is some overlap between the <i>I. versicolor</i> and <i>I. virginica</i> clusters.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="unsupervised-learning.html#cb14-1" tabindex="-1"></a>fig4sub1 <span class="ot">&lt;-</span> <span class="fu">autoplot</span>(data.pca, <span class="at">data =</span> data, <span class="at">colour=</span><span class="st">&quot;Species&quot;</span>)</span>
+<span id="cb14-2"><a href="unsupervised-learning.html#cb14-2" tabindex="-1"></a>fig4sub1</span></code></pre></div>
+<p><img src="test_bookdown_project_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="unsupervised-learning.html#cb15-1" tabindex="-1"></a>mycolors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;orange&#39;</span>, <span class="st">&#39;green&#39;</span>, <span class="st">&#39;blue&#39;</span>)</span>
+<span id="cb15-2"><a href="unsupervised-learning.html#cb15-2" tabindex="-1"></a>data<span class="sc">$</span>color <span class="ot">&lt;-</span> mycolors[ <span class="fu">as.numeric</span>(data<span class="sc">$</span>Species) ]</span>
+<span id="cb15-3"><a href="unsupervised-learning.html#cb15-3" tabindex="-1"></a>fig4sub2 <span class="ot">&lt;-</span> <span class="fu">plot3d</span>(data.pca<span class="sc">$</span>x[,<span class="dv">1</span>], <span class="at">xlab=</span><span class="st">&#39;PC1 (Rx^2 = 0.92)&#39;</span>,</span>
+<span id="cb15-4"><a href="unsupervised-learning.html#cb15-4" tabindex="-1"></a>                   data.pca<span class="sc">$</span>x[,<span class="dv">2</span>], <span class="at">ylab=</span><span class="st">&#39;PC2 (Rx^2 = 0.05)&#39;</span>, </span>
+<span id="cb15-5"><a href="unsupervised-learning.html#cb15-5" tabindex="-1"></a>                   data.pca<span class="sc">$</span>x[,<span class="dv">3</span>], <span class="at">zlab=</span><span class="st">&#39;PC3 (Rx^2 = 0.01)&#39;</span>,</span>
+<span id="cb15-6"><a href="unsupervised-learning.html#cb15-6" tabindex="-1"></a>                   <span class="at">col =</span> data<span class="sc">$</span>color)</span>
+<span id="cb15-7"><a href="unsupervised-learning.html#cb15-7" tabindex="-1"></a><span class="co">#rglwidget()</span></span>
+<span id="cb15-8"><a href="unsupervised-learning.html#cb15-8" tabindex="-1"></a>fig4sub2</span></code></pre></div>
+<p><br></p>
+<p></br></p>
+</div>
+<div id="k-means-analysis" class="section level3 hasAnchor" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> K-Means Analysis<a href="unsupervised-learning.html#k-means-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><a/href=https://github.com/glen-arch><span class="citation">(<a href="#ref-GlenArch"><strong>GlenArch?</strong></a>)</span></a><br></p>
+<p></br>
+<a/href=https://shaun-latham.atlassian.net/jira/software/projects/DSS/boards/1?selectedIssue=DSS-23>DSS-23:</a> Build &amp; train model - K-means:<br></br></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="unsupervised-learning.html#cb16-1" tabindex="-1"></a><span class="co">#Load the data into the dataframe</span></span>
+<span id="cb16-2"><a href="unsupervised-learning.html#cb16-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> iris</span>
+<span id="cb16-3"><a href="unsupervised-learning.html#cb16-3" tabindex="-1"></a><span class="co">#Remove any missing values</span></span>
+<span id="cb16-4"><a href="unsupervised-learning.html#cb16-4" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(df)</span>
+<span id="cb16-5"><a href="unsupervised-learning.html#cb16-5" tabindex="-1"></a><span class="co">#Remove the species column from the dataset</span></span>
+<span id="cb16-6"><a href="unsupervised-learning.html#cb16-6" tabindex="-1"></a>df_iris <span class="ot">&lt;-</span> df</span>
+<span id="cb16-7"><a href="unsupervised-learning.html#cb16-7" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">5</span>)]</span>
+<span id="cb16-8"><a href="unsupervised-learning.html#cb16-8" tabindex="-1"></a><span class="co">#Scale all of the values from 0 to 1</span></span>
+<span id="cb16-9"><a href="unsupervised-learning.html#cb16-9" tabindex="-1"></a><span class="co">#df &lt;- scale(df)</span></span>
+<span id="cb16-10"><a href="unsupervised-learning.html#cb16-10" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="unsupervised-learning.html#cb16-11" tabindex="-1"></a>km <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(df, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb16-12"><a href="unsupervised-learning.html#cb16-12" tabindex="-1"></a>km.pca <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(data.pca<span class="sc">$</span>x[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>],<span class="dv">3</span>,<span class="dv">100</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="unsupervised-learning.html#cb17-1" tabindex="-1"></a>fig5sub1 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(df, kmeans, <span class="at">nstart=</span><span class="dv">2</span>, <span class="at">method =</span> <span class="st">&quot;wss&quot;</span>)<span class="sc">+</span><span class="fu">labs</span>(<span class="at">title=</span><span class="cn">NULL</span>)</span>
+<span id="cb17-2"><a href="unsupervised-learning.html#cb17-2" tabindex="-1"></a><span class="fu">plot</span>(fig5sub1)</span></code></pre></div>
+<p><img src="test_bookdown_project_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="unsupervised-learning.html#cb18-1" tabindex="-1"></a>fig5sub2 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(df, kmeans, <span class="at">nstart =</span> <span class="dv">2</span>, <span class="at">method =</span> <span class="st">&quot;silhouette&quot;</span>)<span class="sc">+</span><span class="fu">labs</span>(<span class="at">title=</span><span class="cn">NULL</span>)</span>
+<span id="cb18-2"><a href="unsupervised-learning.html#cb18-2" tabindex="-1"></a>fig5sub2</span></code></pre></div>
+<p><img src="test_bookdown_project_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="unsupervised-learning.html#cb19-1" tabindex="-1"></a>fig5sub3 <span class="ot">&lt;-</span> <span class="fu">fviz_nbclust</span>(df, kmeans,<span class="at">nstart =</span> <span class="dv">2</span>,<span class="at">method =</span> <span class="st">&quot;gap_stat&quot;</span>)<span class="sc">+</span><span class="fu">labs</span>(<span class="at">title=</span><span class="cn">NULL</span>)</span>
+<span id="cb19-2"><a href="unsupervised-learning.html#cb19-2" tabindex="-1"></a>fig5sub3</span></code></pre></div>
+<p><img src="test_bookdown_project_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="unsupervised-learning.html#cb20-1" tabindex="-1"></a>fig6sub1 <span class="ot">&lt;-</span> <span class="fu">fviz_cluster</span>(km, df)<span class="sc">+</span><span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;K-Means: Raw Data&quot;</span>)</span>
+<span id="cb20-2"><a href="unsupervised-learning.html#cb20-2" tabindex="-1"></a>fig6sub2 <span class="ot">&lt;-</span> <span class="fu">fviz_cluster</span>(km.pca, df)<span class="sc">+</span><span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;K-Means: PCA Scores&quot;</span>)</span>
+<span id="cb20-3"><a href="unsupervised-learning.html#cb20-3" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="unsupervised-learning.html#cb20-4" tabindex="-1"></a>figure6 <span class="ot">&lt;-</span> <span class="fu">ggarrange</span>(fig6sub1, fig6sub2,</span>
+<span id="cb20-5"><a href="unsupervised-learning.html#cb20-5" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb20-6"><a href="unsupervised-learning.html#cb20-6" tabindex="-1"></a>                    <span class="at">ncol =</span> <span class="dv">2</span>, </span>
+<span id="cb20-7"><a href="unsupervised-learning.html#cb20-7" tabindex="-1"></a>                    <span class="at">common.legend =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb20-8"><a href="unsupervised-learning.html#cb20-8" tabindex="-1"></a>                    <span class="at">legend =</span> <span class="st">&quot;bottom&quot;</span>)</span>
+<span id="cb20-9"><a href="unsupervised-learning.html#cb20-9" tabindex="-1"></a>figure6</span></code></pre></div>
+<p><img src="test_bookdown_project_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="unsupervised-learning.html#cb21-1" tabindex="-1"></a>cluster_species <span class="ot">&lt;-</span> km.pca<span class="sc">$</span>cluster</span>
+<span id="cb21-2"><a href="unsupervised-learning.html#cb21-2" tabindex="-1"></a>cluster_species <span class="ot">&lt;-</span> <span class="fu">recode</span>(cluster_species,</span>
+<span id="cb21-3"><a href="unsupervised-learning.html#cb21-3" tabindex="-1"></a>                        <span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;virginica&quot;</span>,</span>
+<span id="cb21-4"><a href="unsupervised-learning.html#cb21-4" tabindex="-1"></a>                        <span class="st">&quot;2&quot;</span> <span class="ot">=</span> <span class="st">&quot;versicolor&quot;</span>,</span>
+<span id="cb21-5"><a href="unsupervised-learning.html#cb21-5" tabindex="-1"></a>                        <span class="st">&quot;3&quot;</span> <span class="ot">=</span> <span class="st">&quot;setosa&quot;</span>)</span>
+<span id="cb21-6"><a href="unsupervised-learning.html#cb21-6" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="unsupervised-learning.html#cb21-7" tabindex="-1"></a>data<span class="sc">$</span>cluster_species <span class="ot">&lt;-</span> cluster_species</span>
+<span id="cb21-8"><a href="unsupervised-learning.html#cb21-8" tabindex="-1"></a><span class="fu">confusionMatrix</span>(<span class="at">data =</span> <span class="fu">factor</span>(data<span class="sc">$</span>Species), <span class="at">reference =</span> <span class="fu">factor</span>(data<span class="sc">$</span>cluster_species))</span></code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##             Reference
+## Prediction   setosa versicolor virginica
+##   setosa          0          0        50
+##   versicolor     47          3         0
+##   virginica      14         36         0
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.02            
+##                  95% CI : (0.0041, 0.0573)
+##     No Information Rate : 0.4067          
+##     P-Value [Acc &gt; NIR] : 1               
+##                                           
+##                   Kappa : -0.47           
+##                                           
+##  Mcnemar&#39;s Test P-Value : &lt;2e-16          
+## 
+## Statistics by Class:
+## 
+##                      Class: setosa Class: versicolor Class: virginica
+## Sensitivity                 0.0000           0.07692           0.0000
+## Specificity                 0.4382           0.57658           0.5000
+## Pos Pred Value              0.0000           0.06000           0.0000
+## Neg Pred Value              0.3900           0.64000           0.5000
+## Prevalence                  0.4067           0.26000           0.3333
+## Detection Rate              0.0000           0.02000           0.0000
+## Detection Prevalence        0.3333           0.33333           0.3333
+## Balanced Accuracy           0.2191           0.32675           0.2500</code></pre>
+<p><br></p>
+<p></br></p>
+</div>
+</div>
+<div id="predict-a-species" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Predict a species<a href="unsupervised-learning.html#predict-a-species" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><a/href=https://github.com/Shaun-Latham><span class="citation">(<a href="#ref-ShaunLatham"><strong>ShaunLatham?</strong></a>)</span></a><br></p>
+<p></br>
+Having explored the data and analysed it by PCA and K-Means, the authors would like to demonstrate the predictive potential of these algorithms. While other supervised learning techniques would be more appropriate for this application, this chapter on unsupervised learning is the only chapter we intend to develop in R; therefore, this is the only opportunity to showcase the interactive R Shiny elements displayed below.<br></br>
+Take some time to input some measurements of your own and see which species your flower is likely to be:<br></p>
+<p></br></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="unsupervised-learning.html#cb23-1" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_url</span>(<span class="st">&quot;https://shaun-m-latham.shinyapps.io/data_science_showcase_unsupervised_learning/&quot;</span>, <span class="at">height=</span><span class="st">&quot;600px&quot;</span>)</span></code></pre></div>
+<iframe src="https://shaun-m-latham.shinyapps.io/data_science_showcase_unsupervised_learning/" width="672" height="600px" data-external="1">
+</iframe>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="unsupervised-learning.html#cb24-1" tabindex="-1"></a><span class="co">#Function to predict cluster from unknown.</span></span>
+<span id="cb24-2"><a href="unsupervised-learning.html#cb24-2" tabindex="-1"></a>kmeans_predictor <span class="ot">&lt;-</span> <span class="cf">function</span>(data,PetalLength,PetalWidth,SepalLength,SepalWidth){</span>
+<span id="cb24-3"><a href="unsupervised-learning.html#cb24-3" tabindex="-1"></a>  test_data <span class="ot">&lt;-</span> <span class="fu">array</span>(<span class="fu">c</span>(PetalLength,PetalWidth,SepalLength,SepalWidth), <span class="at">dim=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>))</span>
+<span id="cb24-4"><a href="unsupervised-learning.html#cb24-4" tabindex="-1"></a>  model <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(data[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>],<span class="dv">3</span>,<span class="at">nstart=</span><span class="dv">25</span>)</span>
+<span id="cb24-5"><a href="unsupervised-learning.html#cb24-5" tabindex="-1"></a>  prediction <span class="ot">&lt;-</span> <span class="fu">cl_predict</span>(model, test_data)</span>
+<span id="cb24-6"><a href="unsupervised-learning.html#cb24-6" tabindex="-1"></a>  <span class="fu">return</span>(prediction)</span>
+<span id="cb24-7"><a href="unsupervised-learning.html#cb24-7" tabindex="-1"></a>}</span>
+<span id="cb24-8"><a href="unsupervised-learning.html#cb24-8" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="unsupervised-learning.html#cb24-9" tabindex="-1"></a><span class="co">#App to input flower dimensions and predict species.</span></span>
+<span id="cb24-10"><a href="unsupervised-learning.html#cb24-10" tabindex="-1"></a><span class="fu">shinyApp</span>(</span>
+<span id="cb24-11"><a href="unsupervised-learning.html#cb24-11" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="unsupervised-learning.html#cb24-12" tabindex="-1"></a>  <span class="at">ui =</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb24-13"><a href="unsupervised-learning.html#cb24-13" tabindex="-1"></a>    <span class="fu">titlePanel</span>(<span class="st">&quot;Predict Species&quot;</span>),</span>
+<span id="cb24-14"><a href="unsupervised-learning.html#cb24-14" tabindex="-1"></a>    </span>
+<span id="cb24-15"><a href="unsupervised-learning.html#cb24-15" tabindex="-1"></a>    <span class="fu">sidebarLayout</span>(</span>
+<span id="cb24-16"><a href="unsupervised-learning.html#cb24-16" tabindex="-1"></a>      <span class="fu">sidebarPanel</span>(</span>
+<span id="cb24-17"><a href="unsupervised-learning.html#cb24-17" tabindex="-1"></a>           <span class="fu">numericInput</span>(<span class="st">&quot;PetalLength&quot;</span>, <span class="st">&quot;Petal length (cm):&quot;</span>, <span class="dv">0</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">10</span>),</span>
+<span id="cb24-18"><a href="unsupervised-learning.html#cb24-18" tabindex="-1"></a>           <span class="fu">numericInput</span>(<span class="st">&quot;PetalWidth&quot;</span>, <span class="st">&quot;Petal width (cm):&quot;</span>, <span class="dv">0</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">10</span>),</span>
+<span id="cb24-19"><a href="unsupervised-learning.html#cb24-19" tabindex="-1"></a>           <span class="fu">numericInput</span>(<span class="st">&quot;SepalLength&quot;</span>, <span class="st">&quot;Sepal length (cm):&quot;</span>, <span class="dv">0</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">10</span>),</span>
+<span id="cb24-20"><a href="unsupervised-learning.html#cb24-20" tabindex="-1"></a>           <span class="fu">numericInput</span>(<span class="st">&quot;SepalWidth&quot;</span>, <span class="st">&quot;Sepal width (cm):&quot;</span>, <span class="dv">0</span>, <span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">10</span>),</span>
+<span id="cb24-21"><a href="unsupervised-learning.html#cb24-21" tabindex="-1"></a>           <span class="fu">actionButton</span>(<span class="st">&quot;submit&quot;</span>,<span class="st">&quot;Submit&quot;</span>)),</span>
+<span id="cb24-22"><a href="unsupervised-learning.html#cb24-22" tabindex="-1"></a>      <span class="fu">mainPanel</span>(</span>
+<span id="cb24-23"><a href="unsupervised-learning.html#cb24-23" tabindex="-1"></a>           <span class="fu">textOutput</span>(<span class="st">&quot;prediction&quot;</span>),</span>
+<span id="cb24-24"><a href="unsupervised-learning.html#cb24-24" tabindex="-1"></a>           <span class="fu">imageOutput</span>(<span class="st">&#39;plot3&#39;</span>))</span>
+<span id="cb24-25"><a href="unsupervised-learning.html#cb24-25" tabindex="-1"></a>      )),</span>
+<span id="cb24-26"><a href="unsupervised-learning.html#cb24-26" tabindex="-1"></a></span>
+<span id="cb24-27"><a href="unsupervised-learning.html#cb24-27" tabindex="-1"></a>  <span class="at">server =</span> <span class="cf">function</span>(input, output) {</span>
+<span id="cb24-28"><a href="unsupervised-learning.html#cb24-28" tabindex="-1"></a>    </span>
+<span id="cb24-29"><a href="unsupervised-learning.html#cb24-29" tabindex="-1"></a>    output<span class="sc">$</span>plot3 <span class="ot">&lt;-</span> <span class="fu">renderImage</span>({</span>
+<span id="cb24-30"><a href="unsupervised-learning.html#cb24-30" tabindex="-1"></a>      <span class="co"># When input$n is 1, filename is ./images/image1.jpeg</span></span>
+<span id="cb24-31"><a href="unsupervised-learning.html#cb24-31" tabindex="-1"></a>      filename <span class="ot">&lt;-</span> <span class="fu">normalizePath</span>(<span class="fu">file.path</span>(<span class="st">&#39;./&#39;</span>,</span>
+<span id="cb24-32"><a href="unsupervised-learning.html#cb24-32" tabindex="-1"></a>                              <span class="fu">paste</span>(<span class="st">&#39;silly-dog&#39;</span>, <span class="st">&#39;.png&#39;</span>, <span class="at">sep=</span><span class="st">&#39;&#39;</span>)))</span>
+<span id="cb24-33"><a href="unsupervised-learning.html#cb24-33" tabindex="-1"></a></span>
+<span id="cb24-34"><a href="unsupervised-learning.html#cb24-34" tabindex="-1"></a>      <span class="co"># Return a list containing the filename</span></span>
+<span id="cb24-35"><a href="unsupervised-learning.html#cb24-35" tabindex="-1"></a>      <span class="fu">list</span>(<span class="at">src =</span> filename)</span>
+<span id="cb24-36"><a href="unsupervised-learning.html#cb24-36" tabindex="-1"></a>    }, <span class="at">deleteFile =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb24-37"><a href="unsupervised-learning.html#cb24-37" tabindex="-1"></a>    </span>
+<span id="cb24-38"><a href="unsupervised-learning.html#cb24-38" tabindex="-1"></a>    calculate <span class="ot">&lt;-</span> <span class="fu">eventReactive</span>(input<span class="sc">$</span>submit,{<span class="fu">kmeans_predictor</span>(data,</span>
+<span id="cb24-39"><a href="unsupervised-learning.html#cb24-39" tabindex="-1"></a>                                                 input<span class="sc">$</span>PetalLength,</span>
+<span id="cb24-40"><a href="unsupervised-learning.html#cb24-40" tabindex="-1"></a>                                                 input<span class="sc">$</span>PetalWidth,</span>
+<span id="cb24-41"><a href="unsupervised-learning.html#cb24-41" tabindex="-1"></a>                                                 input<span class="sc">$</span>SepalLength,</span>
+<span id="cb24-42"><a href="unsupervised-learning.html#cb24-42" tabindex="-1"></a>                                                 input<span class="sc">$</span>SepalWidth)})</span>
+<span id="cb24-43"><a href="unsupervised-learning.html#cb24-43" tabindex="-1"></a>    output<span class="sc">$</span>prediction <span class="ot">&lt;-</span> <span class="fu">renderText</span>(<span class="fu">calculate</span>())</span>
+<span id="cb24-44"><a href="unsupervised-learning.html#cb24-44" tabindex="-1"></a>  },</span>
+<span id="cb24-45"><a href="unsupervised-learning.html#cb24-45" tabindex="-1"></a></span>
+<span id="cb24-46"><a href="unsupervised-learning.html#cb24-46" tabindex="-1"></a>  <span class="at">options =</span> <span class="fu">list</span>(<span class="at">height =</span> <span class="dv">500</span>)</span>
+<span id="cb24-47"><a href="unsupervised-learning.html#cb24-47" tabindex="-1"></a>)</span></code></pre></div>
+<div style="width: 100% ; height: 500px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="supervised-learning.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["test_bookdown_project.pdf", "test_bookdown_project.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

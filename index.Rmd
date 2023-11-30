@@ -1,12 +1,43 @@
----
+--- 
 title: "Data Science Showcase"
 author: "Shaun Latham, Glen Arch"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
-biblio-style: apalike
+# url: your book url like https://bookdown.org/yihui/bookdown
+# cover-image: path to the social sharing image like images/cover.jpg
+description: |
+  Data Science Showcase, hire us!
 link-citations: yes
-description: "This is a minimal example of using
-  the bookdown package to write a book."
+github-repo: rstudio/bookdown-demo
 ---
+
+# Introduction
+
+ This is a concept webpage designed to showcase a portfolio of data science skills possessed the authors.
+  The purpose is to provide prospective employers with a taster of our capabilities to supplement an application.
+  Please take some time to explore the variety of interactive plots, dashboards and applications visualising the output of machine learning models and statistical tests we have prepared.
+  Following redundancy from Pfizer, UK, we are both searching for new employment. If you are an employer and would like to discuss recruitment with us, please get in touch using the contact details found in the 'about' section or via the email addresses below.
+  - Shaun Latham: Shaun_M_Latham@outlook.com
+  - Glen Arch: glen.philip.arch@gmail.com
+
+<h2>About the authors:</h2>
+
+<h3>Shaun Latham</h3>
+Senior Scientist - Pfizer.
+
+<h3>Glen Arch</h3>
+Automation Scientist - Pfizer
+
+```{r eval=FALSE, include=FALSE}
+bookdown::serve_book()
+```
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
